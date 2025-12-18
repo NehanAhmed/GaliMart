@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import Header from "@/components/Header";
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -38,7 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-right" richColors closeButton />
-
+          <Header />
           {children}
         </ThemeProvider>
       </body>

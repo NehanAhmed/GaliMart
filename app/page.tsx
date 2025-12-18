@@ -1,6 +1,9 @@
+import Hero from "@/components/Hero";
 
 export default function Page() {
 return (
-    <div>Hello</div>
+    <main className="w-full min-h-screen">
+        <Hero />
+    </main>
 );
 }
