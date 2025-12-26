@@ -1,6 +1,10 @@
 'use client'
-import { IconBell, IconHeart, IconMapPin, IconMenu, IconSearch, IconShoppingCart, IconUser, IconX } from '@tabler/icons-react';
+import { IconArrowBigRight, IconBell, IconChevronRight, IconHeart, IconMapPin, IconMenu, IconSearch, IconShoppingCart, IconUser, IconX } from '@tabler/icons-react';
 import React, { useState } from 'react';
+import CosmicThemeToggle from './ModeToggle';
+import { Button } from './ui/button';
+import { useAuth } from '@clerk/nextjs';
+import Link from 'next/link';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,13 +13,13 @@ const Header = () => {
   const [notificationCount] = useState(5);
 
   const navLinks = [
-    { label: 'Home', href: '#' },
-    { label: 'Shop', href: '#' },
-    { label: 'Categories', href: '#' },
-    { label: 'Deals', href: '#' },
-    { label: 'About', href: '#' }
+    { label: 'Home', href: '/' },
+    { label: 'Shop', href: '/products' },
+    { label: 'Categories', href: '/categories' },
+    { label: 'Vendors', href: '/vendors' },
+    { label: 'Deals', href: '/deals' },
   ];
-
+  const { isSignedIn } = useAuth()
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* Top Bar */}
@@ -28,12 +32,12 @@ const Header = () => {
               <span className="sm:hidden">Karachi, PK</span>
             </div>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 Track Order
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors hidden sm:inline">
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors hidden sm:inline">
                 Customer Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -44,7 +48,7 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center gap-8">
-            <a href="#" className="flex items-center gap-2 group">
+            <Link href="#" className="flex items-center gap-2 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/30 transition-all" />
                 <div className="relative bg-primary text-primary-foreground rounded-lg p-2">
@@ -57,18 +61,18 @@ const Header = () => {
                 </h1>
                 <p className="text-xs text-muted-foreground -mt-1">Your Shopping Hub</p>
               </div>
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent/10 rounded-md transition-all"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -90,53 +94,51 @@ const Header = () => {
           {/* Right Actions */}
           <div className="flex items-center gap-2">
             {/* Search Icon for Mobile */}
-            <button className="md:hidden p-2 hover:bg-accent/10 rounded-lg transition-colors">
+            <Button className="md:hidden p-2 hover:bg-accent/10 rounded-lg transition-colors">
               <IconSearch className="h-5 w-5" />
-            </button>
+            </Button>
 
             {/* Wishlist */}
-            <button className="hidden sm:flex p-2 hover:bg-accent/10 rounded-lg transition-colors relative group">
-              <IconHeart className="h-5 w-5 group-hover:fill-primary group-hover:text-primary transition-all" />
-            </button>
+            <Button variant={'outline'} className="hidden sm:flex p-2 hover:bg-accent/10 rounded-lg transition-colors relative group">
+              <IconHeart className="h-7 w-7 group-hover:fill-primary group-hover:text-primary transition-all" />
+            </Button>
 
             {/* Notifications */}
-            <button className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors group">
-              <IconBell className="h-5 w-5 group-hover:animate-pulse" />
+            <Button variant={'outline'} className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors group">
+              <IconBell className="h-7 w-7 group-hover:animate-pulse" />
               {notificationCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-xs font-medium">
+                <span className="absolute top-1 right-1 flex h-3 w-3 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-medium">
                   {notificationCount}
                 </span>
               )}
-            </button>
+            </Button>
 
             {/* Cart */}
-            <button className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors group">
-              <IconShoppingCart className="h-5 w-5 group-hover:scale-110 transition-transform" />
+            <Button variant={'outline'} className="relative p-2 hover:bg-accent/10 rounded-lg transition-colors group">
+              <IconShoppingCart className="h-7 w-7 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+                <span className="absolute top-1 right-1 flex h-3 w-3 items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-medium">
                   {cartCount}
                 </span>
               )}
-            </button>
+            </Button>
+            <CosmicThemeToggle />
 
             {/* User Profile */}
-            <button className="hidden sm:flex items-center gap-2 px-3 py-2 hover:bg-accent/10 rounded-lg transition-colors">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <IconUser className="h-4 w-4 text-primary-foreground" />
-              </div>
-              <div className="hidden lg:block text-left">
-                <p className="text-sm font-medium leading-none">Account</p>
-                <p className="text-xs text-muted-foreground">Sign In</p>
-              </div>
-            </button>
+            {isSignedIn && (
 
+              <Link href={'/dashboard'}>
+                <Button className={'mx-2'}>Dashboard <IconChevronRight /></Button>
+              </Link>
+            )
+            }
             {/* Mobile Menu Toggle */}
-            <button
+            <Button
               className="lg:hidden p-2 hover:bg-accent/10 rounded-lg transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <IconX className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -159,24 +161,24 @@ const Header = () => {
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className="px-4 py-3 text-sm font-medium hover:bg-accent/10 rounded-lg transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <div className="border-t my-2" />
-              <a href="#" className="px-4 py-3 text-sm font-medium hover:bg-accent/10 rounded-lg transition-colors flex items-center gap-2">
+              <Link href="#" className="px-4 py-3 text-sm font-medium hover:bg-accent/10 rounded-lg transition-colors flex items-center gap-2">
                 <IconUser className="h-4 w-4" />
                 My Account
-              </a>
-              <a href="#" className="px-4 py-3 text-sm font-medium hover:bg-accent/10 rounded-lg transition-colors flex items-center gap-2">
+              </Link>
+              <Link href="#" className="px-4 py-3 text-sm font-medium hover:bg-accent/10 rounded-lg transition-colors flex items-center gap-2">
                 <IconHeart className="h-4 w-4" />
                 Wishlist
-              </a>
+              </Link>
             </nav>
           </div>
         </div>

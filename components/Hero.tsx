@@ -2,6 +2,7 @@
 import { IconArrowRight, IconPackage, IconShield, IconShoppingBag, IconSparkles, IconTrendingUp, IconTruck } from '@tabler/icons-react';
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
+import Link from 'next/link';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,7 +24,9 @@ const Hero = () => {
       description: "Shop the latest trends and hottest products at unbeatable prices",
       cta: "Shop Now",
       accent: "primary",
-      features: ["Free Shipping", "24/7 Support", "Secure Payment"]
+      features: ["Free Shipping", "24/7 Support", "Secure Payment"],
+      href: '/products'
+
     },
     {
       badge: "Flash Sale",
@@ -32,7 +35,8 @@ const Hero = () => {
       description: "Don't miss out on exclusive deals that won't last long",
       cta: "Grab Deals",
       accent: "destructive",
-      features: ["Limited Stock", "Best Prices", "Fast Delivery"]
+      features: ["Limited Stock", "Best Prices", "Fast Delivery"],
+      href: '/products'
     },
     {
       badge: "Premium Quality",
@@ -41,7 +45,8 @@ const Hero = () => {
       description: "Experience premium products selected by our expert team",
       cta: "Explore Now",
       accent: "accent",
-      features: ["Top Brands", "Quality Assured", "Easy Returns"]
+      features: ["Top Brands", "Quality Assured", "Easy Returns"],
+      href: '/products'
     }
   ];
 
@@ -109,14 +114,18 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4 pt-4">
-              <Button className="group px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                {currentHero.cta}
-                <IconArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button className="text-black py-4 bg-background border border-border rounded-lg font-semibold hover:bg-muted/50 transition-all duration-300 flex items-center gap-2">
+              <Link href={currentHero.href}>
+                <Button className="group px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                  {currentHero.cta}
+                  <IconArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href={'/products?type=latest'}>
+              <Button className="text-black dark:text-white   py-4 bg-background border border-border rounded-lg font-semibold hover:bg-muted/50 transition-all duration-300 flex items-center gap-2">
                 <IconTrendingUp className="h-5 w-5" />
                 Trending Products
               </Button>
+              </Link>
             </div>
 
             {/* Slide Indicators */}
@@ -125,9 +134,8 @@ const Hero = () => {
                 <Button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === currentSlide ? 'w-8 bg-primary' : 'w-1.5 bg-border hover:bg-primary/50'
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentSlide ? 'w-8 bg-primary' : 'w-1.5 bg-border hover:bg-primary/50'
+                    }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
@@ -140,7 +148,7 @@ const Hero = () => {
             <div className="relative">
               {/* Floating Background Card */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl scale-95" />
-              
+
               {/* Main Content Card */}
               <div className="relative bg-card border border-border rounded-3xl p-8 shadow-2xl">
                 {/* Shopping Bag Icon with Animation */}
