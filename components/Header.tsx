@@ -3,10 +3,10 @@ import { IconArrowBigRight, IconBell, IconChevronRight, IconHeart, IconMapPin, I
 import React, { useState } from 'react';
 import CosmicThemeToggle from './ModeToggle';
 import { Button } from './ui/button';
-import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { getSession } from '@/lib/auth-server';
 
-const Header = () => {
+const Header =  ()=> {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [cartCount] = useState(3);
@@ -19,7 +19,6 @@ const Header = () => {
     { label: 'Vendors', href: '/vendors' },
     { label: 'Deals', href: '/deals' },
   ];
-  const { isSignedIn } = useAuth()
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* Top Bar */}
@@ -124,14 +123,7 @@ const Header = () => {
             </Button>
             <CosmicThemeToggle />
 
-            {/* User Profile */}
-            {isSignedIn && (
-
-              <Link href={'/dashboard'}>
-                <Button className={'mx-2'}>Dashboard <IconChevronRight /></Button>
-              </Link>
-            )
-            }
+            
             {/* Mobile Menu Toggle */}
             <Button
               className="lg:hidden p-2 hover:bg-accent/10 rounded-lg transition-colors"

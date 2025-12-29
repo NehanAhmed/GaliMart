@@ -5,10 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  ClerkProvider,
 
-} from '@clerk/nextjs'
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -33,25 +30,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider >
 
-      <html lang="en" className={dmSans.variable} suppressHydrationWarning>
-        <body
-          className={` w-full min-h-screen antialiased`}
+
+    <html lang="en" className={dmSans.variable} suppressHydrationWarning>
+      <body
+        className={` w-full min-h-screen antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={false}
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            <Toaster position="top-right" expand  richColors closeButton />
-            
-            {children}
-            
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          <Toaster position="top-right" expand richColors closeButton />
+
+          {children}
+
+        </ThemeProvider>
+      </body>
+    </html>
+
   );
 }
