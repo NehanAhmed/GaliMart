@@ -31,37 +31,34 @@ import {
     IconStar,
     IconUpload
 } from '@tabler/icons-react';
-import { UserButton, UserProfile, useUser } from '@clerk/nextjs';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [expandedMenu, setExpandedMenu] = useState(null);
 
     const mainNavigation = [
-        { id: 'dashboard', label: 'Dashboard', icon: IconHome, href: '/seller/dashboard', badge: null },
-        { id: 'orders', label: 'Orders', icon: IconPackage, href: '/seller/orders', badge: null },
-        { id: 'products', label: 'Products', icon: IconShoppingCart, href: '/seller/products', badge: null, hasSubmenu: true },
-        { id: 'customers', label: 'Customers', icon: IconUser, href: '/seller/customers', badge: null },
-        { id: 'analytics', label: 'Analytics', icon: IconChartLine, href: '/seller/analytics', badge: null },
-        { id: 'wallet', label: 'Wallet', icon: IconWallet, href: '/seller/wallet', badge: null }
+        { id: 'dashboard', label: 'Dashboard', icon: IconHome, href: '/dashboard', badge: null },
+        { id: 'orders', label: 'Orders', icon: IconPackage, href: '/dashboard/orders', badge: null },
+        { id: 'Inventory', label: 'Inventory', icon: IconShoppingCart, href: '/dashboard/inventory', badge: null, hasSubmenu: true },
+        { id: 'customers', label: 'Customers', icon: IconUser, href: '/dashboard/customers', badge: null },
+        { id: 'analytics', label: 'Analytics', icon: IconChartLine, href: '/dashboard/analytics', badge: null },
+        { id: 'wallet', label: 'Wallet', icon: IconWallet, href: '/dashboard/wallet', badge: null }
     ];
 
     const categories = [
-        { id: 'all-products', label: 'All Products', icon: IconList, href: '/seller/products', count: '45' },
-        { id: 'add-product', label: 'Add Product', icon: IconPlus, href: '/seller/products/add', count: null },
-        { id: 'inventory', label: 'Inventory', icon: IconPackages, href: '/seller/inventory', count: '45' },
-        { id: 'categories', label: 'Categories', icon: IconCategory, href: '/seller/categories', count: '12' },
-        { id: 'reviews', label: 'Reviews', icon: IconStar, href: '/seller/reviews', count: '89' },
-        { id: 'bulk-upload', label: 'Bulk Upload', icon: IconUpload, href: '/seller/products/bulk', count: null }
+        { id: 'all-products', label: 'All Products', icon: IconList, href: '/dashboard/products', count: '45' },
+        { id: 'add-product', label: 'Add Product', icon: IconPlus, href: '/dashboard/products/add', count: null },
+        { id: 'inventory', label: 'Inventory', icon: IconPackages, href: '/dashboard/inventory', count: '45' },
+        { id: 'categories', label: 'Categories', icon: IconCategory, href: '/dashboard/categories', count: '12' },
+        { id: 'reviews', label: 'Reviews', icon: IconStar, href: '/dashboard/reviews', count: '89' },
+        { id: 'bulk-upload', label: 'Bulk Upload', icon: IconUpload, href: '/dashboard/products/bulk', count: null }
     ];
 
     const userMenu = [
-        { id: 'shop-settings', label: 'Shop Settings', icon: IconBuildingStore, href: '/seller/shop', badge: null },
-        { id: 'profile', label: 'My Profile', icon: IconUser, href: '/seller/profile', badge: null },
-        { id: 'settings', label: 'Settings', icon: IconSettings, href: '/seller/settings', badge: null }
+        { id: 'shop-settings', label: 'Shop Settings', icon: IconBuildingStore, href: '/dashboard/shop', badge: null },
+        { id: 'profile', label: 'My Profile', icon: IconUser, href: '/dashboard/profile', badge: null },
+        { id: 'settings', label: 'Settings', icon: IconSettings, href: '/dashboard/settings', badge: null }
     ];
-
-    const { user } = useUser()
 
     const toggleMenu = (menuId) => {
         setExpandedMenu(expandedMenu === menuId ? null : menuId);
@@ -200,15 +197,7 @@ const Sidebar = () => {
             {/* Logout */}
             <div className='p-4 border-t border-border'>
                 <div className="flex items-center gap-3">
-                    <UserButton/>
-                    <div className="flex-1 min-w-0">
-                        <h1 className="text-sm font-medium text-foreground truncate">
-                            {user?.username || user?.firstName || 'Guest'}
-                        </h1>
-                        <p className="text-xs text-muted-foreground truncate">
-                            {user?.emailAddresses?.[0]?.emailAddress || 'guest@example.com'}
-                        </p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
