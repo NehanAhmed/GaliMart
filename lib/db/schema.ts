@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, integer, numeric } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -72,10 +72,58 @@ export const verification = pgTable(
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
+export const products = pgTable(
+  "products",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
 
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+
+    name: text("name").notNull(),
+    slug: text("slug").notNull().unique(),
+
+    description: text("description"),
+    shortDescription: text("short_description"),
+
+    price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+    compareAtPrice: numeric("compare_at_price", {
+      precision: 10,
+      scale: 2,
+    }),
+
+    currency: text("currency").default("PKR").notNull(),
+
+    stockQuantity: integer("stock_quantity").default(0).notNull(),
+    sku: text("sku").unique(),
+
+    isActive: boolean("is_active").default(true).notNull(),
+    isApproved: boolean("is_approved").default(false).notNull(),
+    isFeatured: boolean("is_featured").default(false).notNull(),
+
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [
+    index("products_userId_idx").on(table.userId),
+    index("products_slug_idx").on(table.slug),
+    index("products_active_approved_idx").on(
+      table.isActive,
+      table.isApproved
+    ),
+    index("products_price_idx").on(table.price),
+  ]
+);
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  products: many(products)
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -91,3 +139,11 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export const productRelations = relations(products, ({ one }) => ({
+  user: one(user, {
+    fields: [products.userId],
+    references: [user.id],
+  }),
+}));
+

@@ -37,7 +37,7 @@ const Sidebar = () => {
     const [expandedMenu, setExpandedMenu] = useState(null);
 
     const mainNavigation = [
-        { id: 'dashboard', label: 'Dashboard', icon: IconHome, href: '/dashboard/dashboard', badge: null },
+        { id: 'dashboard', label: 'Dashboard', icon: IconHome, href: '/dashboard', badge: null },
         { id: 'orders', label: 'Orders', icon: IconPackage, href: '/dashboard/orders', badge: null },
         { id: 'Inventory', label: 'Inventory', icon: IconShoppingCart, href: '/dashboard/inventory', badge: null, hasSubmenu: true },
         { id: 'customers', label: 'Customers', icon: IconUser, href: '/dashboard/customers', badge: null },
